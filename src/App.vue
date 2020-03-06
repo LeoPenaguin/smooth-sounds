@@ -1,20 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <Placeholder/>
+    <Sounds/>
+    <Timer/>
   </div>
 </template>
 
 <script>
-import Placeholder from './components/Placeholder.vue'
+import Sounds from './components/Sounds.vue'
+import Timer from './components/Timer.vue'
 
 export default {
   name: 'App',
   components: {
-    Placeholder
+    Sounds,
+    Timer
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    background: #0c161f;
+    #app {
+        width: 100vw;
+        height: 100vh;
+    }
+}
 </style>

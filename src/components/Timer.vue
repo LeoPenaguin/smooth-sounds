@@ -1,12 +1,12 @@
 <template>
-  <div id="Placeholder">
-    Placeholder !!!
+  <div id="Timer">
+    Timer
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Placeholder',
+  name: 'Timer',
 }
 </script>
 
