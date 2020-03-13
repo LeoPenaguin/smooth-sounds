@@ -59,35 +59,35 @@ export default {
         {
             id: 7,
             path: require('@/assets/sounds/wave.mp3'),
-            cover: require('@/assets/covers/no_image.png'),
+            cover: require('@/assets/covers/wave.gif'),
             autoPlay: false,
             loop: true
         },
         {
             id: 8,
             path: require('@/assets/sounds/pedestrian_street.mp3'),
-            cover: require('@/assets/covers/no_image.png'),
+            cover: require('@/assets/covers/pedestrian_street.gif'),
             autoPlay: false,
             loop: true
         },
         {
             id: 9,
             path: require('@/assets/sounds/chimney.mp3'),
-            cover: require('@/assets/covers/no_image.png'),
+            cover: require('@/assets/covers/chimney.gif'),
             autoPlay: false,
             loop: true
         },
         {
             id: 10,
             path: require('@/assets/sounds/underwater.mp3'),
-            cover: require('@/assets/covers/no_image.png'),
+            cover: require('@/assets/covers/underwater.gif'),
             autoPlay: false,
             loop: true
         },
         {
             id: 11,
             path: require('@/assets/sounds/wiper.mp3'),
-            cover: require('@/assets/covers/no_image.png'),
+            cover: require('@/assets/covers/wiper.gif'),
             autoPlay: false,
             loop: true
         },
