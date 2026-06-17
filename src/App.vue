@@ -6,8 +6,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref, provide } from 'vue'
 import Sounds from './components/Sounds.vue'
 import Timer from './components/Timer.vue'
+
+const stopSignal = ref<'idle' | 'fading'>('idle')
+provide('stopSignal', stopSignal)
 </script>
 
 <style lang="scss">
@@ -21,7 +25,7 @@ html, body {
   background: #0c161f;
   #app {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
   }
 }
 </style>
