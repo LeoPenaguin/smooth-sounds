@@ -3,16 +3,15 @@
     <div class="timer-controls">
       <div class="icon-wrapper">
         <svg class="icon" viewBox="0 0 24 24" width="22" height="22">
-          <circle cx="12" cy="13" r="8.5" fill="#FF00FF"/>
-          <rect x="10.5" y="3.5" width="3" height="2.5" rx="1.5" fill="#FF00FF"/>
-          <line x1="12" y1="13" x2="12" y2="9" stroke="#0c161f" stroke-width="2" stroke-linecap="round"/>
-          <line x1="12" y1="13" x2="15" y2="13" stroke="#0c161f" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="12" cy="13" r="8.5"/>
+          <rect x="10.5" y="3.5" width="3" height="2.5" rx="1.5"/>
+          <line x1="12" y1="13" x2="12" y2="9" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12" y1="13" x2="15" y2="13" stroke-width="2" stroke-linecap="round"/>
         </svg>
         <svg v-if="isRunning" class="progress-ring" viewBox="0 0 40 40">
-          <circle class="track" stroke="#193043" stroke-width="3" fill="transparent" cx="20" cy="20" r="16" />
+          <circle class="track" stroke-width="3" fill="transparent" cx="20" cy="20" r="16" />
           <circle
             class="fill"
-            stroke="#FF00FF"
             stroke-width="3"
             fill="transparent"
             cx="20" cy="20" r="16"
@@ -84,7 +83,7 @@ function cancel() {
   position: fixed;
   bottom: 1.25rem;
   left: 1.25rem;
-  background: #111e2b;
+  background: $bg-panel;
   border-radius: 9999px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
 
@@ -93,6 +92,11 @@ function cancel() {
     align-items: center;
     gap: 0.35rem;
     padding: 0.35rem;
+
+    .icon {
+      circle, rect { fill: $accent; }
+      line { stroke: $bg-base; }
+    }
 
     .icon-wrapper {
       position: relative;
@@ -114,6 +118,9 @@ function cancel() {
         width: 38px;
         height: 38px;
 
+        .track { stroke: $bg-element; }
+        .fill { stroke: $accent; }
+
         .fill {
           transition: stroke-dashoffset 1s linear;
           transform: rotate(-90deg);
@@ -124,10 +131,10 @@ function cancel() {
 
     button {
       height: 38px;
-      background: #193043;
+      background: $bg-element;
       border: none;
-      color: #8ba8be;
-      font-size: 0.75rem;
+      color: $text-muted;
+      font-size: 0.9rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       padding: 0 1.1rem;
@@ -137,16 +144,16 @@ function cancel() {
       white-space: nowrap;
 
       &:hover {
-        background: #1f3a54;
-        color: #FF00FF;
+        background: $bg-element-hover;
+        color: $accent;
       }
 
       &.cancel {
-        color: #FF00FF;
-        background: #2a0d24;
+        color: $accent;
+        background: $bg-cancel;
 
         &:hover {
-          background: #3a1030;
+          background: $bg-cancel-hover;
         }
       }
     }
