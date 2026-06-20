@@ -1,36 +1,50 @@
 <template>
   <div class="GlobalControls">
     <div class="controls">
-      <span class="vol-icon">
-        <svg viewBox="0 0 24 24" width="22" height="22">
-          <path d="M3 9v6h4l5 5V4L7 9H3z" fill="#ff00ff"/>
-          <path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" fill="#ff00ff"/>
-        </svg>
-      </span>
+      <button class="vol-btn" @click="toggleMute">
+        <Icon :icon="volumeIcon" />
+      </button>
       <input class="vol-slider" type="range" min="0" max="100" v-model.number="masterVolume" />
       <button class="stop-btn" @click="stopAll()">
-        <svg viewBox="0 0 24 24" width="16" height="16">
-          <rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor"/>
-        </svg>
+        <Icon icon="mdi:stop" />
       </button>
       <button class="stop-btn" @click="toggleFullscreen()">
-        <svg v-if="!isFullscreen" viewBox="0 0 24 24" width="16" height="16">
-          <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <svg v-else viewBox="0 0 24 24" width="16" height="16">
-          <path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+        <Icon :icon="isFullscreen ? 'mdi:fullscreen-exit' : 'mdi:fullscreen'" />
       </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject, ref, onMounted, onUnmounted } from 'vue'
+import { inject, ref, computed, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
+import { Icon } from '@iconify/vue'
+
+const VOLUME_LOW_MAX = 33
+const VOLUME_MEDIUM_MAX = 66
+const DEFAULT_UNMUTE_VOLUME = 100
 
 const masterVolume = inject<Ref<number>>('masterVolume')!
 const stopAllTrigger = inject<Ref<number>>('stopAllTrigger')!
+
+const volumeIcon = computed(() => {
+  const v = masterVolume.value
+  if (v === 0) return 'mdi:volume-mute'
+  if (v <= VOLUME_LOW_MAX) return 'mdi:volume-low'
+  if (v <= VOLUME_MEDIUM_MAX) return 'mdi:volume-medium'
+  return 'mdi:volume-high'
+})
+
+const volumeBeforeMute = ref(DEFAULT_UNMUTE_VOLUME)
+
+function toggleMute() {
+  if (masterVolume.value > 0) {
+    volumeBeforeMute.value = masterVolume.value
+    masterVolume.value = 0
+  } else {
+    masterVolume.value = volumeBeforeMute.value || DEFAULT_UNMUTE_VOLUME
+  }
+}
 
 function stopAll() {
   stopAllTrigger.value++
@@ -70,13 +84,19 @@ onUnmounted(() => document.removeEventListener('fullscreenchange', onFullscreenC
     gap: 0.35rem;
     padding: 0.35rem;
 
-    .vol-icon {
+    .vol-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 38px;
       height: 38px;
       flex-shrink: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: $accent;
+      font-size: 22px;
+      cursor: pointer;
     }
 
     .vol-slider {
@@ -122,6 +142,7 @@ onUnmounted(() => document.removeEventListener('fullscreenchange', onFullscreenC
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      font-size: 20px;
       transition: background-color 0.2s, color 0.2s;
 
       &:hover {

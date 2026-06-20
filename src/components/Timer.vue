@@ -2,12 +2,7 @@
   <div class="Timer">
     <div class="timer-controls">
       <div class="icon-wrapper">
-        <svg class="icon" viewBox="0 0 24 24" width="22" height="22">
-          <circle cx="12" cy="13" r="8.5"/>
-          <rect x="10.5" y="3.5" width="3" height="2.5" rx="1.5"/>
-          <line x1="12" y1="13" x2="12" y2="9" stroke-width="2" stroke-linecap="round"/>
-          <line x1="12" y1="13" x2="15" y2="13" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+        <Icon class="icon" icon="mdi:timer-outline" />
         <svg v-if="isRunning" class="progress-ring" viewBox="0 0 40 40">
           <circle class="track" stroke-width="3" fill="transparent" cx="20" cy="20" r="16" />
           <circle
@@ -36,6 +31,7 @@
 <script setup lang="ts">
 import { ref, computed, inject } from 'vue'
 import type { Ref } from 'vue'
+import { Icon } from '@iconify/vue'
 
 const stopSignal = inject<Ref<'idle' | 'fading'>>('stopSignal')!
 
@@ -94,8 +90,8 @@ function cancel() {
     padding: 0.35rem;
 
     .icon {
-      circle, rect { fill: $accent; }
-      line { stroke: $bg-base; }
+      color: $accent;
+      font-size: 22px;
     }
 
     .icon-wrapper {
