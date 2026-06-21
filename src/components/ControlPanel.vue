@@ -10,9 +10,9 @@ withDefaults(defineProps<{ position?: 'left' | 'center' }>(), { position: 'cente
 
 <style scoped lang="scss">
 .ControlPanel {
-  position: fixed;
-  bottom: 1.25rem;
-  z-index: 10;
+  position: absolute;
+  bottom: 0;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 0.35rem;
@@ -21,8 +21,9 @@ withDefaults(defineProps<{ position?: 'left' | 'center' }>(), { position: 'cente
   border-radius: 9999px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
 
+  // alignés sur le contenu de la colonne (padding 1rem de .control-bar)
   &.left {
-    left: 1.25rem;
+    left: 1rem;
   }
 
   &.center {
