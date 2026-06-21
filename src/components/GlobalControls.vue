@@ -1,24 +1,17 @@
 <template>
-  <div class="GlobalControls">
-    <div class="controls">
-      <button class="vol-btn" @click="toggleMute">
-        <Icon :icon="volumeIcon" />
-      </button>
-      <input class="vol-slider" type="range" min="0" max="100" v-model.number="masterVolume" />
-      <button class="stop-btn" @click="stopAll()">
-        <Icon icon="mdi:stop" />
-      </button>
-      <button class="stop-btn" @click="toggleFullscreen()">
-        <Icon :icon="isFullscreen ? 'mdi:fullscreen-exit' : 'mdi:fullscreen'" />
-      </button>
-    </div>
-  </div>
+  <ControlPanel position="center">
+    <ControlButton :icon="volumeIcon" @click="toggleMute" />
+    <input class="vol-slider" type="range" min="0" max="100" v-model.number="masterVolume" />
+    <ControlButton icon="mdi:stop" @click="stopAll" />
+    <ControlButton :icon="isFullscreen ? 'mdi:fullscreen-exit' : 'mdi:fullscreen'" @click="toggleFullscreen" />
+  </ControlPanel>
 </template>
 
 <script setup lang="ts">
 import { inject, ref, computed, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
-import { Icon } from '@iconify/vue'
+import ControlPanel from './ControlPanel.vue'
+import ControlButton from './ControlButton.vue'
 
 const VOLUME_LOW_MAX = 33
 const VOLUME_MEDIUM_MAX = 66
@@ -69,87 +62,34 @@ onUnmounted(() => document.removeEventListener('fullscreenchange', onFullscreenC
 </script>
 
 <style lang="scss" scoped>
-.GlobalControls {
-  position: fixed;
-  bottom: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: $bg-panel;
+.vol-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 130px;
+  height: 4px;
+  background: $bg-element;
+  outline: none;
   border-radius: 9999px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+  cursor: pointer;
 
-  .controls {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem;
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: $accent;
+    border-radius: 9999px;
+    border: 0;
+    cursor: pointer;
+  }
 
-    .vol-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 38px;
-      height: 38px;
-      flex-shrink: 0;
-      padding: 0;
-      border: 0;
-      background: none;
-      color: $accent;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    .vol-slider {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 130px;
-      height: 4px;
-      background: $bg-element;
-      outline: none;
-      border-radius: 9999px;
-      cursor: pointer;
-
-      &::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 16px;
-        height: 16px;
-        background: $accent;
-        border-radius: 9999px;
-        border: 0;
-        cursor: pointer;
-      }
-
-      &::-moz-range-thumb {
-        width: 16px;
-        height: 16px;
-        background: $accent;
-        border-radius: 9999px;
-        border: 0;
-        cursor: pointer;
-      }
-    }
-
-    .stop-btn {
-      width: 38px;
-      height: 38px;
-      background: $bg-element;
-      border: none;
-      color: $text-muted;
-      border-radius: 9999px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 20px;
-      transition: background-color 0.2s, color 0.2s;
-
-      &:hover {
-        background: $bg-element-hover;
-        color: $accent;
-      }
-    }
+  &::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: $accent;
+    border-radius: 9999px;
+    border: 0;
+    cursor: pointer;
   }
 }
 </style>
