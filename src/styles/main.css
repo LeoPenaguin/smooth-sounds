@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-base: 'Fredoka', sans-serif;
+
+    --color-bg-base: #000000;
+    --color-bg-panel: #111e2b;
+    --color-bg-element: #193043;
+    --color-bg-element-hover: #1f3a54;
+    --color-text-muted: #8ba8be;
+    --color-accent: #a99cff;
+}
