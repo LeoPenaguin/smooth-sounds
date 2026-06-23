@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/LeoPenaguin/smooth-sounds/compare/smooth-sounds-v0.2.0...smooth-sounds-v0.3.0) (2026-06-23)
+
+
+### Features
+
+* add categories ([65c7963](https://github.com/LeoPenaguin/smooth-sounds/commit/65c7963c45c81566ef7679871b17e1b9269df3e2))
+* add categories ([0e9d400](https://github.com/LeoPenaguin/smooth-sounds/commit/0e9d4009c08c5495fee0a73a5e37a9f797db9e9a))
+
 ## [0.2.0](https://github.com/LeoPenaguin/smooth-sounds/compare/smooth-sounds-v0.1.0...smooth-sounds-v0.2.0) (2026-06-21)
 
 
