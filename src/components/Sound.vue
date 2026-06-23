@@ -56,79 +56,91 @@ const props = withDefaults(
     },
 )
 
-const { masterVolume, stopSignal, onStopAll } = usePlaybackBus()
+const { stopSignal, onStopAll, audioContext, masterGain, ensureRunning } = usePlaybackBus()
+
+/** Déclic-fade play/pause/stop pour éviter les pops. */
+const FADE_SHORT = 0.12
+/** Fondu de fin de minuteur. */
+const FADE_TIMER = 5
 
 const audioEl = ref<HTMLAudioElement>()
 const playing = ref(false)
 const volume = ref(100)
-let fadeIntervalId: ReturnType<typeof setInterval> | null = null
+let gainNode: GainNode | null = null
+let stopTimeoutId: ReturnType<typeof setTimeout> | null = null
 
 const cardEl = ref<HTMLElement>()
 const canvasEl = ref<HTMLCanvasElement>()
 const { setActive } = useWavyBorder(cardEl, canvasEl, () => props.iconColor)
 
 /* ---------- Audio ---------- */
+/** Rampe le gain du son vers `target` depuis sa valeur courante (anti-clic). */
+function rampTo(target: number, durationSec: number) {
+    if (!gainNode) return
+    const now = audioContext.currentTime
+    gainNode.gain.cancelScheduledValues(now)
+    gainNode.gain.setValueAtTime(gainNode.gain.value, now)
+    gainNode.gain.linearRampToValueAtTime(target, now + durationSec)
+}
+
+function scheduleStop(afterSec: number) {
+    clearStopTimeout()
+    stopTimeoutId = setTimeout(() => {
+        audioEl.value?.pause()
+        stopTimeoutId = null
+    }, afterSec * 1000)
+}
+
+function clearStopTimeout() {
+    if (stopTimeoutId) {
+        clearTimeout(stopTimeoutId)
+        stopTimeoutId = null
+    }
+}
+
 watch(playing, (value) => {
-    if (audioEl.value) {
-        if (value) audioEl.value.play()
-        else audioEl.value.pause()
+    if (value) {
+        clearStopTimeout()
+        audioEl.value?.play()
+        rampTo(volume.value / 100, FADE_SHORT)
+    } else {
+        rampTo(0, FADE_SHORT)
+        scheduleStop(FADE_SHORT)
     }
     setActive(value)
 })
 
 watch(volume, (value) => {
-    if (audioEl.value) audioEl.value.volume = (value / 100) * (masterVolume.value / 100)
+    if (playing.value) rampTo(value / 100, FADE_SHORT)
 })
 
-watch(masterVolume, (value) => {
-    if (audioEl.value) audioEl.value.volume = (volume.value / 100) * (value / 100)
+onStopAll(() => {
+    playing.value = false
 })
-
-onStopAll(() => audioEl.value?.pause())
 
 watch(stopSignal, (signal) => {
     if (signal === 'fading' && playing.value) {
-        startFade()
+        rampTo(0, FADE_TIMER)
+        scheduleStop(FADE_TIMER)
     } else if (signal === 'idle') {
-        cancelFade()
+        clearStopTimeout()
+        if (playing.value) rampTo(volume.value / 100, FADE_SHORT)
     }
 })
 
-function startFade() {
-    if (!audioEl.value) return
-    const startVol = audioEl.value.volume
-    const steps = 50
-    const decrement = startVol / steps
-    let step = 0
-
-    fadeIntervalId = setInterval(() => {
-        if (!audioEl.value) return
-        step++
-        if (step >= steps) {
-            audioEl.value.volume = 0
-            audioEl.value.pause()
-            clearInterval(fadeIntervalId!)
-            fadeIntervalId = null
-        } else {
-            audioEl.value.volume = Math.max(0, audioEl.value.volume - decrement)
-        }
-    }, 100)
-}
-
-function cancelFade() {
-    if (fadeIntervalId) {
-        clearInterval(fadeIntervalId)
-        fadeIntervalId = null
-    }
-    if (audioEl.value) audioEl.value.volume = (volume.value / 100) * (masterVolume.value / 100)
-}
-
 function togglePlay() {
+    ensureRunning()
     playing.value = !playing.value
 }
 
 onMounted(() => {
     const audio = audioEl.value!
+    audio.volume = 1
+
+    gainNode = audioContext.createGain()
+    gainNode.gain.value = 0
+    audioContext.createMediaElementSource(audio).connect(gainNode)
+    gainNode.connect(masterGain)
 
     audio.addEventListener('loadeddata', () => {
         if (audio.readyState >= 2) playing.value = props.autoPlay
@@ -144,5 +156,8 @@ onMounted(() => {
     })
 })
 
-onUnmounted(cancelFade)
+onUnmounted(() => {
+    clearStopTimeout()
+    gainNode?.disconnect()
+})
 </script>
