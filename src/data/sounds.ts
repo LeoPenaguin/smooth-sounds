@@ -20,6 +20,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#4ade80',
         autoPlay: false,
         loop: true,
+        category: 'nature',
     },
     {
         id: 2,
@@ -30,6 +31,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#fb7536',
         autoPlay: false,
         loop: true,
+        category: 'fire',
     },
     {
         id: 3,
@@ -40,6 +42,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#38bdf8',
         autoPlay: false,
         loop: true,
+        category: 'water',
     },
     {
         id: 4,
@@ -50,6 +53,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#a78bfa',
         autoPlay: false,
         loop: true,
+        category: 'weather',
     },
     {
         id: 5,
@@ -60,6 +64,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#818cf8',
         autoPlay: false,
         loop: true,
+        category: 'nature',
     },
     {
         id: 6,
@@ -70,6 +75,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#2dd4bf',
         autoPlay: false,
         loop: true,
+        category: 'water',
     },
     {
         id: 7,
@@ -80,6 +86,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#60a5fa',
         autoPlay: false,
         loop: true,
+        category: 'water',
     },
     {
         id: 8,
@@ -90,6 +97,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#fbbf24',
         autoPlay: false,
         loop: true,
+        category: 'urban',
     },
     {
         id: 9,
@@ -100,6 +108,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#f87171',
         autoPlay: false,
         loop: true,
+        category: 'fire',
     },
     {
         id: 10,
@@ -110,6 +119,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#22d3ee',
         autoPlay: false,
         loop: true,
+        category: 'water',
     },
     {
         id: 11,
@@ -120,6 +130,7 @@ export const sounds: SoundEntry[] = [
         iconColor: '#94a3b8',
         autoPlay: false,
         loop: true,
+        category: 'travel',
     },
     {
         id: 12,
@@ -130,5 +141,6 @@ export const sounds: SoundEntry[] = [
         iconColor: '#f472b6',
         autoPlay: false,
         loop: true,
+        category: 'travel',
     },
 ]
